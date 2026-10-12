@@ -1,0 +1,350 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: UTM Phone Switcher 1.0.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/utm-phone-"
+"switcher\n"
+"POT-Creation-Date: 2026-10-12T11:53:13+00:00\n"
+"PO-Revision-Date: 2026-10-06 07:30+0300\n"
+"Last-Translator: Parad0x\n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: WP-CLI\n"
+"X-Domain: utm-phone-switcher\n"
+
+#. Plugin Name of the plugin
+#: utm-phone-switcher.php includes/class-utm-phone-switcher.php:261
+#: includes/class-utm-phone-switcher.php:262
+#: includes/class-utm-phone-switcher.php:305
+msgid "UTM Phone Switcher"
+msgstr "UTM Phone Switcher"
+
+#. Plugin URI of the plugin
+#: utm-phone-switcher.php
+msgid "https://needtome.com/utm-phone-switcher/"
+msgstr ""
+
+#. Description of the plugin
+#: utm-phone-switcher.php
+msgid ""
+"Change phone numbers on your WordPress site based on UTM or other URL "
+"parameters."
+msgstr ""
+"Изменяйте номера телефонов на сайте WordPress в зависимости от UTM-меток и "
+"других параметров URL."
+
+#. Author of the plugin
+#: utm-phone-switcher.php
+msgid "Parad0x"
+msgstr "Parad0x"
+
+#. Author URI of the plugin
+#: utm-phone-switcher.php
+msgid "https://www.linkedin.com/in/roman-klymenko-parad0x/"
+msgstr "https://www.linkedin.com/in/roman-klymenko-parad0x/"
+
+#: includes/class-utm-phone-switcher.php:282
+#: includes/class-utm-phone-switcher.php:309
+msgid "Settings"
+msgstr "Настройки"
+
+#: includes/class-utm-phone-switcher.php:310
+msgid "Other plugins"
+msgstr "Другие плагины"
+
+#: includes/class-utm-phone-switcher.php:311
+#: includes/class-utm-phone-switcher.php:401
+msgid "Website Development"
+msgstr "Разработка сайтов"
+
+#: includes/class-utm-phone-switcher.php:331
+msgid ""
+"Show a campaign-specific phone number when a visitor arrives with a matching "
+"URL parameter. Add a CSS selector for the element that contains the phone "
+"number."
+msgstr ""
+"Показывайте отдельный номер телефона для кампании, когда посетитель "
+"переходит по ссылке с подходящим параметром URL. Укажите CSS-селектор "
+"элемента с номером телефона."
+
+#: includes/class-utm-phone-switcher.php:332
+msgid ""
+"Example: parameter utm_source, value newsletter, selector .header-phone, "
+"phone +1 555 010 1234."
+msgstr ""
+"Пример: параметр utm_source, значение newsletter, селектор .header-phone, "
+"телефон +1 555 010 1234."
+
+#: includes/class-utm-phone-switcher.php:338
+msgid "Number replacement rules"
+msgstr "Правила замены номеров"
+
+#: includes/class-utm-phone-switcher.php:339
+msgid ""
+"Rules are checked from top to bottom. When more than one matching rule "
+"targets the same element, the first rule wins."
+msgstr ""
+"Правила проверяются сверху вниз. Если несколько совпавших правил нацелены на "
+"один элемент, применяется первое."
+
+#: includes/class-utm-phone-switcher.php:340
+msgid ""
+"Parameter value is optional. Leave it blank to match any value when the URL "
+"parameter is present. Use * as a wildcard in the parameter name, for example "
+"utm_* matches names beginning with utm_."
+msgstr ""
+"Значение параметра можно не указывать. Если оставить поле пустым, правило "
+"сработает при наличии параметра в URL независимо от его значения. Символ * "
+"заменяет любую часть имени параметра, например utm_* соответствует именам, "
+"начинающимся с utm_."
+
+#: includes/class-utm-phone-switcher.php:346
+#: includes/class-utm-phone-switcher.php:622
+msgid "URL parameter"
+msgstr "Параметр URL"
+
+#: includes/class-utm-phone-switcher.php:347
+#: includes/class-utm-phone-switcher.php:625
+msgid "Parameter value"
+msgstr "Значение параметра"
+
+#: includes/class-utm-phone-switcher.php:348
+#: includes/class-utm-phone-switcher.php:626
+msgid "CSS selector"
+msgstr "CSS-селектор"
+
+#: includes/class-utm-phone-switcher.php:349
+#: includes/class-utm-phone-switcher.php:627
+msgid "Replacement phone"
+msgstr "Новый номер телефона"
+
+#: includes/class-utm-phone-switcher.php:350
+msgid "Actions"
+msgstr "Действия"
+
+#: includes/class-utm-phone-switcher.php:361
+msgid "Add rule"
+msgstr "Добавить правило"
+
+#: includes/class-utm-phone-switcher.php:362
+msgid ""
+"Use a selector that targets only the phone text, such as .header-phone "
+"or .contact-phone a. If it targets a tel: link, the link destination is "
+"updated too. Selectors are validated in the browser when a page is viewed."
+msgstr ""
+"Укажите селектор только для текста телефона, например .header-phone "
+"или .contact-phone a. Если селектор выбирает ссылку tel:, её адрес тоже "
+"обновится. Селекторы проверяются в браузере при просмотре страницы."
+
+#: includes/class-utm-phone-switcher.php:369
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: includes/class-utm-phone-switcher.php:395
+msgid "WordPress plugins"
+msgstr "Плагины WordPress"
+
+#: includes/class-utm-phone-switcher.php:397
+msgid "WordPress security plugin."
+msgstr "Плагин безопасности WordPress."
+
+#: includes/class-utm-phone-switcher.php:398
+msgid "Campaign-based phone number replacement."
+msgstr "Замена номера телефона по параметрам рекламной кампании."
+
+#: includes/class-utm-phone-switcher.php:402
+msgid "Selected projects and related products:"
+msgstr "Избранные проекты и связанные продукты:"
+
+#: includes/class-utm-phone-switcher.php:403
+msgid "AI Worker"
+msgstr "ИИ-сотрудник"
+
+#: includes/class-utm-phone-switcher.php:404
+msgid "Nutrition Platform"
+msgstr "Платформа питания"
+
+#: includes/class-utm-phone-switcher.php:405
+msgid "Related sections"
+msgstr "Связанные разделы"
+
+#: includes/class-utm-phone-switcher.php:407
+msgid "Recipes"
+msgstr "Рецепты"
+
+#: includes/class-utm-phone-switcher.php:408
+msgid "Products"
+msgstr "Продукты"
+
+#: includes/class-utm-phone-switcher.php:409
+msgid "Nutrients"
+msgstr "Нутриенты"
+
+#: includes/class-utm-phone-switcher.php:410
+msgid "Quizzes"
+msgstr "Тесты"
+
+#: includes/class-utm-phone-switcher.php:411
+msgid "Shop"
+msgstr "Магазин"
+
+#: includes/class-utm-phone-switcher.php:413
+msgid "Trading Platform"
+msgstr "Торговая платформа"
+
+#: includes/class-utm-phone-switcher.php:414
+msgid "Related products"
+msgstr "Связанные продукты"
+
+#: includes/class-utm-phone-switcher.php:416
+msgid "Trading simulator and journal"
+msgstr "Торговый симулятор и журнал"
+
+#: includes/class-utm-phone-switcher.php:417
+msgid "Trading terminal"
+msgstr "Торговый терминал"
+
+#: includes/class-utm-phone-switcher.php:418
+msgid "Trading robots"
+msgstr "Торговые роботы"
+
+#: includes/class-utm-phone-switcher.php:420
+msgid "More works can be seen in the WordPress and AI & automation resumes."
+msgstr "Больше примеров работ — в резюме по WordPress и ИИ с автоматизацией."
+
+#: includes/class-utm-phone-switcher.php:422
+msgid "WordPress resume"
+msgstr "Резюме по WordPress"
+
+#: includes/class-utm-phone-switcher.php:423
+msgid "AI & automation resume"
+msgstr "Резюме по ИИ и автоматизации"
+
+#: includes/class-utm-phone-switcher.php:439
+msgid "Email"
+msgstr "Электронная почта"
+
+#: includes/class-utm-phone-switcher.php:444
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+#: includes/class-utm-phone-switcher.php:449
+msgid "Viber"
+msgstr "Viber"
+
+#: includes/class-utm-phone-switcher.php:454
+msgid "Telegram"
+msgstr "Telegram"
+
+#: includes/class-utm-phone-switcher.php:481
+msgid "My current donation page."
+msgstr "Моя актуальная страница для пожертвований."
+
+#: includes/class-utm-phone-switcher.php:486
+msgid "Best known for recurring support and membership tiers."
+msgstr "Известен регулярной поддержкой и уровнями членства."
+
+#: includes/class-utm-phone-switcher.php:496
+msgid "Support the development of the plugin"
+msgstr "Поддержите разработку плагина"
+
+#: includes/class-utm-phone-switcher.php:497
+msgid ""
+"If UTM Phone Switcher helps you show the right phone number for each "
+"campaign, you can support its further development and maintenance via the "
+"services below."
+msgstr ""
+"Если UTM Phone Switcher помогает показывать нужный номер телефона для каждой "
+"кампании, вы можете поддержать его дальнейшую разработку и обслуживание "
+"через перечисленные ниже сервисы."
+
+#: includes/class-utm-phone-switcher.php:519
+msgid "Enable number replacement"
+msgstr "Включить замену номеров"
+
+#: includes/class-utm-phone-switcher.php:523
+msgid "Apply enabled rules on the public site"
+msgstr "Применять включённые правила на сайте"
+
+#: includes/class-utm-phone-switcher.php:528
+msgid "Administrator-only testing mode"
+msgstr "Режим тестирования только для администраторов"
+
+#: includes/class-utm-phone-switcher.php:532
+msgid ""
+"Apply enabled rules only for logged-in administrators on the public site."
+msgstr ""
+"Применять включённые правила на публичной части сайта только для вошедших "
+"администраторов."
+
+#: includes/class-utm-phone-switcher.php:534
+msgid "Other visitors will see the original phone numbers."
+msgstr "Остальные посетители будут видеть исходные номера телефонов."
+
+#: includes/class-utm-phone-switcher.php:538
+msgid "Remember the matching campaign"
+msgstr "Запоминать кампанию"
+
+#: includes/class-utm-phone-switcher.php:541
+msgid ""
+"Days. Use 0 to remember it only for the current browser session. The first-"
+"party cookie stores matching rule IDs, not phone numbers or visitor profiles."
+msgstr ""
+"Дней. Укажите 0, чтобы сохранять выбор только до закрытия браузера. Cookie "
+"сайта хранит идентификаторы совпавших правил, а не номера телефонов или "
+"профили посетителей."
+
+#: includes/class-utm-phone-switcher.php:545
+msgid "Uninstall"
+msgstr "Удаление плагина"
+
+#: includes/class-utm-phone-switcher.php:549
+msgid "Delete plugin settings when the plugin is deleted"
+msgstr "Удалять настройки при удалении плагина"
+
+#: includes/class-utm-phone-switcher.php:566
+msgid ""
+"Right-click the phone number and choose Inspect. In the Inspector, right-"
+"click the highlighted element and choose Copy → CSS Selector."
+msgstr ""
+"Щёлкните правой кнопкой мыши по номеру телефона и выберите «Исследовать». В "
+"Инспекторе щёлкните правой кнопкой по выделенному элементу и выберите "
+"«Копировать → CSS-селектор»."
+
+#: includes/class-utm-phone-switcher.php:570
+#: includes/class-utm-phone-switcher.php:574
+msgid ""
+"Right-click the phone number and choose Inspect. In the Elements panel, "
+"right-click the highlighted element and choose Copy → Copy selector."
+msgstr ""
+"Щёлкните правой кнопкой мыши по номеру телефона и выберите «Просмотреть "
+"код». В панели Elements щёлкните правой кнопкой по выделенному элементу и "
+"выберите «Копировать → Копировать селектор»."
+
+#: includes/class-utm-phone-switcher.php:578
+msgid ""
+"Open Safari Web Inspector, select the phone element in the Elements tab, "
+"then use the selected node’s context menu to copy its selector."
+msgstr ""
+"Откройте Web Inspector в Safari, выберите элемент с телефоном во вкладке "
+"Elements, затем в контекстном меню выбранного узла скопируйте его селектор."
+
+#: includes/class-utm-phone-switcher.php:583
+msgid "Find a CSS selector in your browser:"
+msgstr "Как найти CSS-селектор в браузере:"
+
+#: includes/class-utm-phone-switcher.php:623
+msgid "Enabled"
+msgstr "Включено"
+
+#: includes/class-utm-phone-switcher.php:625
+msgid "Optional"
+msgstr "Можно не указывать"
+
+#: includes/class-utm-phone-switcher.php:628
+msgid "Remove"
+msgstr "Удалить"
