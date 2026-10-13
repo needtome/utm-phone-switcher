@@ -8,11 +8,19 @@ Replace selected phone numbers on a WordPress site according to URL campaign par
 - Test enabled rules on the public site for logged-in administrators before exposing them to visitors.
 - Remember the selected rule IDs in a configurable first-party cookie.
 
+## Screenshots
+
+### Plugin settings
+
+[![UTM Phone Switcher settings](./screenshot-1.png)](./screenshot-1.png)
+
+### Campaign demo
+
+[![Campaign-specific phone number demo](./screenshot-2.png)](./screenshot-2.png)
+
 ## Links
 
 - [Plugin page and live demo](https://needtome.com/utm-phone-switcher/)
-- [Settings screenshot](screenshot-1.png)
-- [Campaign demo screenshot](screenshot-2.png)
 
 The WordPress.org submission is being prepared; its directory page will be linked here when available.
 
