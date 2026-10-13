@@ -5,6 +5,23 @@
 	var tableBody = document.getElementById('utm-phone-switcher-rules');
 	var template = document.getElementById('utm-phone-switcher-row-template');
 	var browserItems = Array.prototype.slice.call(document.querySelectorAll('.utm-phone-switcher-browser-item'));
+	var consentMode = document.getElementById('utm-phone-switcher-consent-mode');
+	var consentOptionRows = Array.prototype.slice.call(document.querySelectorAll('[data-utm-consent-option]'));
+
+	function updateConsentOptions() {
+		if (!consentMode) {
+			return;
+		}
+		consentOptionRows.forEach(function (row) {
+			var modes = (row.getAttribute('data-utm-consent-option') || '').split(',');
+			row.hidden = modes.indexOf(consentMode.value) === -1;
+		});
+	}
+
+	if (consentMode) {
+		consentMode.addEventListener('change', updateConsentOptions);
+		updateConsentOptions();
+	}
 
 	function closeBrowserTooltips(except) {
 		browserItems.forEach(function (item) {

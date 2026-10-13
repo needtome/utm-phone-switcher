@@ -90,6 +90,19 @@
 		document.cookie = cookie;
 	}
 
+	function removeCookie(name) {
+		var cookie = encodeURIComponent(name) + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax';
+		if (window.location.protocol === 'https:') {
+			cookie += '; Secure';
+		}
+		document.cookie = cookie;
+	}
+
+	function clearSavedRuleIds() {
+		removeCookie(cookieName);
+		removeCookie(legacyCookieName);
+	}
+
 	function getCurrentMatches() {
 		var params = new URLSearchParams(window.location.search);
 		return config.rules.filter(function (rule) {
@@ -117,13 +130,7 @@
 		});
 	}
 
-	function getActiveRules() {
-		var matches = getCurrentMatches();
-		if (matches.length) {
-			saveRuleIds(matches.map(function (rule) { return rule.id; }));
-			return matches;
-		}
-
+	function getSavedRules() {
 		var savedIds = readSavedRuleIds();
 		if (!savedIds.length) {
 			savedIds = readLegacyRuleIds();
@@ -132,6 +139,73 @@
 		return config.rules.filter(function (rule) {
 			return rule && savedSet.has(String(rule.id));
 		});
+	}
+
+	function readPath(root, path) {
+		if (!path || !root) {
+			return undefined;
+		}
+		var parts = String(path).replace(/^window\./, '').split('.');
+		var value = root;
+		var owner = root;
+		for (var index = 0; index < parts.length; index += 1) {
+			if (!parts[index] || value === null || typeof value === 'undefined') {
+				return undefined;
+			}
+			owner = value;
+			value = value[parts[index]];
+		}
+		if (typeof value === 'function') {
+			try {
+				value = value.call(owner, String(config.consent_category || 'marketing'));
+			} catch (error) {
+				return undefined;
+			}
+		}
+		return value;
+	}
+
+	function normalizeConsent(value) {
+		if (value === true || value === 'allow' || value === 'granted' || value === 'accepted' || value === 'true') {
+			return true;
+		}
+		if (value === false || value === 'deny' || value === 'denied' || value === 'rejected' || value === 'false') {
+			return false;
+		}
+		return null;
+	}
+
+	var customConsentState = null;
+
+	function getConsentState() {
+		var mode = String(config.consent_mode || 'always');
+		if (mode === 'always') {
+			return true;
+		}
+		if (mode === 'wp_consent_api') {
+			if (typeof window.wp_has_consent !== 'function') {
+				return null;
+			}
+			try {
+				return normalizeConsent(window.wp_has_consent(String(config.consent_category || 'marketing')));
+			} catch (error) {
+				return null;
+			}
+		}
+		if (mode === 'custom') {
+			var customValue = normalizeConsent(readPath(window, String(config.custom_consent_path || '')));
+			return customValue === null ? customConsentState : customValue;
+		}
+		return true;
+	}
+
+	function getCustomEventConsent(event) {
+		if (!event || typeof event.detail === 'undefined') {
+			return null;
+		}
+		var eventPath = String(config.custom_event_detail_path || '');
+		var value = eventPath ? readPath(event.detail, eventPath) : event.detail;
+		return normalizeConsent(value);
 	}
 
 	function getTargets(root, selector) {
@@ -177,9 +251,50 @@
 		return 'tel:' + value.replace(/\+/g, '');
 	}
 
-	var activeRules = getActiveRules();
-	if (!activeRules.length) {
-		return;
+	var activeRules = [];
+	var appliedElements = new Map();
+	var handledConsentEvents = new WeakSet();
+	var started = false;
+
+	function restoreAppliedElements() {
+		appliedElements.forEach(function (original, element) {
+			if (!element.isConnected) {
+				appliedElements.delete(element);
+				return;
+			}
+			replacePhoneText(element, original.text);
+			if (element instanceof HTMLAnchorElement && original.href !== null) {
+				element.setAttribute('href', original.href);
+			}
+		});
+		appliedElements.clear();
+	}
+
+	function updateActiveRules(event) {
+		var eventConsent = null;
+		if (String(config.consent_mode || 'always') === 'custom' && event && event.type === String(config.custom_consent_event || '')) {
+			customConsentState = getCustomEventConsent(event);
+			eventConsent = customConsentState;
+		}
+
+		var matches = getCurrentMatches();
+		var consent = eventConsent === null ? getConsentState() : eventConsent;
+		if (consent === true) {
+			activeRules = matches.length ? matches : getSavedRules();
+			if (matches.length) {
+				saveRuleIds(matches.map(function (rule) { return rule.id; }));
+			}
+		} else {
+			activeRules = matches;
+			if (consent === false) {
+				clearSavedRuleIds();
+			}
+		}
+
+		restoreAppliedElements();
+		if (started) {
+			applyRules(document);
+		}
 	}
 
 	function applyRules(root) {
@@ -190,6 +305,12 @@
 					return;
 				}
 				claimed.add(element);
+				if (!appliedElements.has(element)) {
+					appliedElements.set(element, {
+						text: element.textContent,
+						href: element instanceof HTMLAnchorElement ? element.getAttribute('href') : null
+					});
+				}
 				if (element.textContent.trim() !== String(rule.phone).trim()) {
 					replacePhoneText(element, String(rule.phone));
 				}
@@ -204,6 +325,7 @@
 	}
 
 	function start() {
+		started = true;
 		applyRules(document);
 		if (!window.MutationObserver || !document.documentElement) {
 			return;
@@ -261,6 +383,27 @@
 			subtree: true
 		});
 	}
+
+	function onConsentChange(event) {
+		if (event && handledConsentEvents.has(event)) {
+			return;
+		}
+		if (event) {
+			handledConsentEvents.add(event);
+		}
+		updateActiveRules(event);
+	}
+
+	if (String(config.consent_mode || 'always') === 'wp_consent_api') {
+		document.addEventListener('wp_listen_for_consent_change', onConsentChange);
+		document.addEventListener('wp_consent_type_defined', onConsentChange);
+	}
+	if (String(config.consent_mode || 'always') === 'custom' && config.custom_consent_event) {
+		window.addEventListener(String(config.custom_consent_event), onConsentChange);
+		document.addEventListener(String(config.custom_consent_event), onConsentChange);
+	}
+
+	updateActiveRules();
 
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', start, { once: true });

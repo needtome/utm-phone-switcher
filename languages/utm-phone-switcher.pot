@@ -2,23 +2,23 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: UTM Phone Switcher 1.0.3\n"
+"Project-Id-Version: UTM Phone Switcher 1.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/utm-phone-switcher\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-12T11:53:13+00:00\n"
+"POT-Creation-Date: 2026-10-13T06:53:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: utm-phone-switcher\n"
 
 #. Plugin Name of the plugin
 #: utm-phone-switcher.php
-#: includes/class-utm-phone-switcher.php:261
-#: includes/class-utm-phone-switcher.php:262
-#: includes/class-utm-phone-switcher.php:305
+#: includes/class-utm-phone-switcher.php:309
+#: includes/class-utm-phone-switcher.php:310
+#: includes/class-utm-phone-switcher.php:354
 msgid "UTM Phone Switcher"
 msgstr ""
 
@@ -42,249 +42,353 @@ msgstr ""
 msgid "https://www.linkedin.com/in/roman-klymenko-parad0x/"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:282
-#: includes/class-utm-phone-switcher.php:309
+#: includes/class-utm-phone-switcher.php:330
+#: includes/class-utm-phone-switcher.php:358
 msgid "Settings"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:310
+#: includes/class-utm-phone-switcher.php:359
 msgid "Other plugins"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:311
-#: includes/class-utm-phone-switcher.php:401
+#: includes/class-utm-phone-switcher.php:360
+#: includes/class-utm-phone-switcher.php:450
 msgid "Website Development"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:331
+#: includes/class-utm-phone-switcher.php:380
 msgid "Show a campaign-specific phone number when a visitor arrives with a matching URL parameter. Add a CSS selector for the element that contains the phone number."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:332
+#: includes/class-utm-phone-switcher.php:381
 msgid "Example: parameter utm_source, value newsletter, selector .header-phone, phone +1 555 010 1234."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:338
+#: includes/class-utm-phone-switcher.php:387
 msgid "Number replacement rules"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:339
+#: includes/class-utm-phone-switcher.php:388
 msgid "Rules are checked from top to bottom. When more than one matching rule targets the same element, the first rule wins."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:340
+#: includes/class-utm-phone-switcher.php:389
 msgid "Parameter value is optional. Leave it blank to match any value when the URL parameter is present. Use * as a wildcard in the parameter name, for example utm_* matches names beginning with utm_."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:346
-#: includes/class-utm-phone-switcher.php:622
+#: includes/class-utm-phone-switcher.php:395
+#: includes/class-utm-phone-switcher.php:746
 msgid "URL parameter"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:347
-#: includes/class-utm-phone-switcher.php:625
+#: includes/class-utm-phone-switcher.php:396
+#: includes/class-utm-phone-switcher.php:749
 msgid "Parameter value"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:348
-#: includes/class-utm-phone-switcher.php:626
+#: includes/class-utm-phone-switcher.php:397
+#: includes/class-utm-phone-switcher.php:750
 msgid "CSS selector"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:349
-#: includes/class-utm-phone-switcher.php:627
+#: includes/class-utm-phone-switcher.php:398
+#: includes/class-utm-phone-switcher.php:751
 msgid "Replacement phone"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:350
+#: includes/class-utm-phone-switcher.php:399
 msgid "Actions"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:361
+#: includes/class-utm-phone-switcher.php:410
 msgid "Add rule"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:362
+#: includes/class-utm-phone-switcher.php:411
 msgid "Use a selector that targets only the phone text, such as .header-phone or .contact-phone a. If it targets a tel: link, the link destination is updated too. Selectors are validated in the browser when a page is viewed."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:369
+#: includes/class-utm-phone-switcher.php:418
 msgid "Save Changes"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:395
+#: includes/class-utm-phone-switcher.php:444
 msgid "WordPress plugins"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:397
+#: includes/class-utm-phone-switcher.php:446
 msgid "WordPress security plugin."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:398
+#: includes/class-utm-phone-switcher.php:447
 msgid "Campaign-based phone number replacement."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:402
-msgid "Selected projects and related products:"
+#: includes/class-utm-phone-switcher.php:451
+msgid "Senior web developer with 15+ years in commercial development and 400+ delivered or optimized websites and platforms. I build high-performance WordPress products, custom business systems, large catalogs, marketplaces, trading tools, and automation workflows. I have published 13 technical books and work in production with full-stack JavaScript, Python/FastAPI, Node.js automation, Asterisk, parsers, bots, and performance engineering."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:403
-msgid "AI Worker"
+#: includes/class-utm-phone-switcher.php:452
+msgid "Originally from Ukraine; based in Chișinău, Moldova."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:404
-msgid "Nutrition Platform"
+#: includes/class-utm-phone-switcher.php:453
+msgid "Custom website and plugin development"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:405
-msgid "Related sections"
+#: includes/class-utm-phone-switcher.php:453
+msgid "$30/hour"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:407
-msgid "Recipes"
+#: includes/class-utm-phone-switcher.php:455
+msgid "What I can build"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:408
-msgid "Products"
+#: includes/class-utm-phone-switcher.php:457
+msgid "WordPress and WooCommerce websites, plugins, custom themes, and integrations."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:409
-msgid "Nutrients"
+#: includes/class-utm-phone-switcher.php:458
+msgid "Custom business systems, marketplaces, catalogs, aggregators, and data import pipelines."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:410
-msgid "Quizzes"
+#: includes/class-utm-phone-switcher.php:459
+msgid "Performance optimization, PageSpeed, technical SEO, and responsive interfaces."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:411
-msgid "Shop"
+#: includes/class-utm-phone-switcher.php:460
+msgid "Automation and integrations with PHP, JavaScript, Node.js, Python/FastAPI, APIs, CRM systems, Telegram, and Asterisk."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:413
-msgid "Trading Platform"
+#: includes/class-utm-phone-switcher.php:461
+msgid "AI-assisted workflows, parsers, bots, PDF and Word generation, and internal tools."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:414
-msgid "Related products"
+#: includes/class-utm-phone-switcher.php:464
+msgid "Selected projects"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:416
-msgid "Trading simulator and journal"
+#: includes/class-utm-phone-switcher.php:466
+msgid "A crewing platform with 200,000+ resumes, vacancies, response tools, instant messaging, bulk mailings, Telegram bots, Asterisk calling, and PDF/Word document generation. PageSpeed Mobile reached 100."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:417
-msgid "Trading terminal"
+#: includes/class-utm-phone-switcher.php:467
+msgid "A product catalog that processes more than 50 million products from supplier feeds, with city-specific pages and PageSpeed Mobile 100."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:418
-msgid "Trading robots"
+#: includes/class-utm-phone-switcher.php:468
+msgid "A WordPress and WooCommerce platform for recipes, products, nutrients, quizzes, digital books, multilingual publishing, and ecommerce."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:420
-msgid "More works can be seen in the WordPress and AI & automation resumes."
+#: includes/class-utm-phone-switcher.php:469
+msgid "Browser and desktop trading tools with real-time charts, demo trading, portfolio tracking, and a historical-data testing platform."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:422
-msgid "WordPress resume"
+#: includes/class-utm-phone-switcher.php:470
+msgid "A multilingual WordPress media platform for animated cards and short videos, with subscriptions, a browser editor, and automated publishing. PageSpeed reached 100 on mobile and desktop."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:423
-msgid "AI & automation resume"
+#: includes/class-utm-phone-switcher.php:471
+msgid "A WordPress security plugin that blocks suspicious requests, brute-force attempts, parsing, and DoS-like traffic patterns."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:439
+#: includes/class-utm-phone-switcher.php:474
+msgid "The resume includes additional projects, technical background, and work history."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:476
+msgid "WordPress and full-stack development resume"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:477
+msgid "AI and automation resume"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:478
+msgid "Portfolio and contact page"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:494
 msgid "Email"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:444
+#: includes/class-utm-phone-switcher.php:499
 msgid "LinkedIn"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:449
+#: includes/class-utm-phone-switcher.php:504
 msgid "Viber"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:454
+#: includes/class-utm-phone-switcher.php:509
 msgid "Telegram"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:481
+#: includes/class-utm-phone-switcher.php:536
 msgid "My current donation page."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:486
+#: includes/class-utm-phone-switcher.php:541
 msgid "Best known for recurring support and membership tiers."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:496
+#: includes/class-utm-phone-switcher.php:551
 msgid "Support the development of the plugin"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:497
+#: includes/class-utm-phone-switcher.php:552
 msgid "If UTM Phone Switcher helps you show the right phone number for each campaign, you can support its further development and maintenance via the services below."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:519
+#: includes/class-utm-phone-switcher.php:574
 msgid "Enable number replacement"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:523
+#: includes/class-utm-phone-switcher.php:578
 msgid "Apply enabled rules on the public site"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:528
+#: includes/class-utm-phone-switcher.php:583
 msgid "Administrator-only testing mode"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:532
+#: includes/class-utm-phone-switcher.php:587
 msgid "Apply enabled rules only for logged-in administrators on the public site."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:534
+#: includes/class-utm-phone-switcher.php:589
 msgid "Other visitors will see the original phone numbers."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:538
+#: includes/class-utm-phone-switcher.php:593
 msgid "Remember the matching campaign"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:541
+#: includes/class-utm-phone-switcher.php:596
 msgid "Days. Use 0 to remember it only for the current browser session. The first-party cookie stores matching rule IDs, not phone numbers or visitor profiles."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:545
-msgid "Uninstall"
+#: includes/class-utm-phone-switcher.php:602
+msgid "GDPR and cookie consent"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:549
-msgid "Delete plugin settings when the plugin is deleted"
+#: includes/class-utm-phone-switcher.php:603
+msgid "UTM Phone Switcher changes the number whenever the current page URL matches a rule. A first-party cookie can remember that campaign for later pages; it stores only matching rule IDs. This section controls that cross-page memory."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:566
-msgid "Right-click the phone number and choose Inspect. In the Inspector, right-click the highlighted element and choose Copy → CSS Selector."
+#: includes/class-utm-phone-switcher.php:604
+msgid "If your cookie banner should control this cookie, connect its consent signal below. When consent for the selected category is refused or withdrawn, the plugin deletes the cookie; a matching campaign URL still works. This setting follows your banner’s signal. It does not decide whether consent is legally required or make your site GDPR-compliant by itself."
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:570
-#: includes/class-utm-phone-switcher.php:574
-msgid "Right-click the phone number and choose Inspect. In the Elements panel, right-click the highlighted element and choose Copy → Copy selector."
+#: includes/class-utm-phone-switcher.php:608
+msgid "Consent handling"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:578
-msgid "Open Safari Web Inspector, select the phone element in the Elements tab, then use the selected node’s context menu to copy its selector."
+#: includes/class-utm-phone-switcher.php:611
+msgid "Always remember across pages (no consent check)"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:583
-msgid "Find a CSS selector in your browser:"
+#: includes/class-utm-phone-switcher.php:612
+msgid "Use the WordPress Consent API"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:613
+msgid "Connect another consent banner"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:618
+msgid "Consent category"
 msgstr ""
 
 #: includes/class-utm-phone-switcher.php:623
-msgid "Enabled"
+msgid "Functional"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:624
+msgid "Preferences"
 msgstr ""
 
 #: includes/class-utm-phone-switcher.php:625
+msgid "Anonymous statistics"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:626
+msgid "Statistics"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:627
+msgid "Marketing"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:634
+msgid "Choose the same category your banner reports as allowed. Your site is responsible for choosing the applicable category."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:639
+msgid "Connect a custom consent banner"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:640
+msgid "Use this only if your banner does not expose the WordPress Consent API. Enter a JavaScript path for the current consent state and an event that fires when the visitor changes the choice. If the plugin cannot read an allowed state, it will not use the campaign cookie."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:644
+msgid "Consent state path"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:647
+msgid "Enter the JavaScript property or function your banner exposes for this category, such as window.myCmp.consent.marketing. A function receives the selected category."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:651
+msgid "Banner consent-change event"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:654
+msgid "Enter the event name your banner dispatches when consent changes."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:658
+msgid "Consent value in event detail"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:661
+msgid "Enter the path to this category’s true/false value inside event.detail. Leave blank if event.detail itself is true or false."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:669
+msgid "Uninstall"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:673
+msgid "Delete plugin settings when the plugin is deleted"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:690
+msgid "Right-click the phone number and choose Inspect. In the Inspector, right-click the highlighted element and choose Copy → CSS Selector."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:694
+#: includes/class-utm-phone-switcher.php:698
+msgid "Right-click the phone number and choose Inspect. In the Elements panel, right-click the highlighted element and choose Copy → Copy selector."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:702
+msgid "Open Safari Web Inspector, select the phone element in the Elements tab, then use the selected node’s context menu to copy its selector."
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:707
+msgid "Find a CSS selector in your browser:"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:747
+msgid "Enabled"
+msgstr ""
+
+#: includes/class-utm-phone-switcher.php:749
 msgid "Optional"
 msgstr ""
 
-#: includes/class-utm-phone-switcher.php:628
+#: includes/class-utm-phone-switcher.php:752
 msgid "Remove"
 msgstr ""

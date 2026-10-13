@@ -35,7 +35,7 @@ final class Plugin {
 		add_action( 'admin_menu', array( $plugin, 'register_settings_page' ) );
 		add_action( 'admin_init', array( $plugin, 'register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $plugin, 'enqueue_admin_assets' ) );
-		add_action( 'wp_enqueue_scripts', array( $plugin, 'enqueue_frontend_assets' ) );
+		add_action( 'wp_enqueue_scripts', array( $plugin, 'enqueue_frontend_assets' ), 1100 );
 		add_filter( 'plugin_action_links_' . plugin_basename( UTM_PHONE_SWITCHER_FILE ), array( $plugin, 'add_settings_link' ) );
 	}
 
@@ -118,6 +118,11 @@ final class Plugin {
 			'enabled'                 => 1,
 			'admin_only'              => 0,
 			'duration_days'           => 14,
+			'consent_mode'            => 'always',
+			'consent_category'        => 'marketing',
+			'custom_consent_path'     => '',
+			'custom_consent_event'    => '',
+			'custom_event_detail_path' => 'marketing',
 			'delete_data_on_uninstall' => 0,
 			'rules'                   => array(
 				array(
@@ -205,11 +210,50 @@ final class Plugin {
 			? absint( $input['duration_days'] )
 			: 14;
 		$duration = min( 365, $duration );
+		$consent_mode = isset( $input['consent_mode'] ) && is_string( $input['consent_mode'] )
+			? sanitize_key( $input['consent_mode'] )
+			: 'always';
+		if ( ! in_array( $consent_mode, array( 'always', 'wp_consent_api', 'custom' ), true ) ) {
+			$consent_mode = 'always';
+		}
+
+		$consent_category = isset( $input['consent_category'] ) && is_string( $input['consent_category'] )
+			? sanitize_key( $input['consent_category'] )
+			: 'marketing';
+		if ( ! in_array( $consent_category, array( 'functional', 'preferences', 'statistics-anonymous', 'statistics', 'marketing' ), true ) ) {
+			$consent_category = 'marketing';
+		}
+
+		$custom_consent_path = isset( $input['custom_consent_path'] ) && is_string( $input['custom_consent_path'] )
+			? trim( $input['custom_consent_path'] )
+			: '';
+		if ( '' !== $custom_consent_path && ! preg_match( '/^(?:window\.)?[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*$/D', $custom_consent_path ) ) {
+			$custom_consent_path = '';
+		}
+
+		$custom_consent_event = isset( $input['custom_consent_event'] ) && is_string( $input['custom_consent_event'] )
+			? trim( sanitize_text_field( $input['custom_consent_event'] ) )
+			: '';
+		if ( '' !== $custom_consent_event && ! preg_match( '/^[A-Za-z][A-Za-z0-9:_-]{0,100}$/D', $custom_consent_event ) ) {
+			$custom_consent_event = '';
+		}
+
+		$custom_event_detail_path = isset( $input['custom_event_detail_path'] ) && is_string( $input['custom_event_detail_path'] )
+			? trim( $input['custom_event_detail_path'] )
+			: 'marketing';
+		if ( '' !== $custom_event_detail_path && ! preg_match( '/^[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*$/D', $custom_event_detail_path ) ) {
+			$custom_event_detail_path = 'marketing';
+		}
 
 		$settings = array(
 			'enabled'                  => empty( $input['enabled'] ) ? 0 : 1,
 			'admin_only'               => empty( $input['admin_only'] ) ? 0 : 1,
 			'duration_days'            => $duration,
+			'consent_mode'             => $consent_mode,
+			'consent_category'         => $consent_category,
+			'custom_consent_path'      => $custom_consent_path,
+			'custom_consent_event'     => $custom_consent_event,
+			'custom_event_detail_path' => $custom_event_detail_path,
 			'delete_data_on_uninstall' => empty( $input['delete_data_on_uninstall'] ) ? 0 : 1,
 			'rules'                    => array(),
 		);
@@ -404,28 +448,34 @@ final class Plugin {
 					</ul>
 				<?php else : ?>
 					<h2><?php esc_html_e( 'Website Development', 'utm-phone-switcher' ); ?></h2>
-					<p><?php esc_html_e( 'Selected projects and related products:', 'utm-phone-switcher' ); ?></p>
-					<h3><a href="https://kra.name/ru/" target="_blank" rel="noreferrer noopener">kra.name — <?php esc_html_e( 'AI Worker', 'utm-phone-switcher' ); ?></a></h3>
-					<h3><a href="https://o-keto.com/en/" target="_blank" rel="noreferrer noopener">o-keto.com — <?php esc_html_e( 'Nutrition Platform', 'utm-phone-switcher' ); ?></a></h3>
-					<p><?php esc_html_e( 'Related sections', 'utm-phone-switcher' ); ?>:</p>
-					<ul>
-						<li><a href="https://o-keto.com/en/recipes/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Recipes', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://o-keto.com/en/products/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Products', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://o-keto.com/en/nutrients/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Nutrients', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://o-keto.com/en/quiz/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Quizzes', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://o-keto.com/en/shop/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Shop', 'utm-phone-switcher' ); ?></a></li>
+					<p class="pdxglobal_lead"><?php esc_html_e( 'Senior web developer with 15+ years in commercial development and 400+ delivered or optimized websites and platforms. I build high-performance WordPress products, custom business systems, large catalogs, marketplaces, trading tools, and automation workflows. I have published 13 technical books and work in production with full-stack JavaScript, Python/FastAPI, Node.js automation, Asterisk, parsers, bots, and performance engineering.', 'utm-phone-switcher' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Originally from Ukraine; based in Chișinău, Moldova.', 'utm-phone-switcher' ); ?></p>
+					<p class="pdxglobal_rate"><strong><?php esc_html_e( 'Custom website and plugin development', 'utm-phone-switcher' ); ?>:</strong> <span><?php esc_html_e( '$30/hour', 'utm-phone-switcher' ); ?></span></p>
+
+					<h3><?php esc_html_e( 'What I can build', 'utm-phone-switcher' ); ?></h3>
+					<ul class="pdxglobal_services">
+						<li><?php esc_html_e( 'WordPress and WooCommerce websites, plugins, custom themes, and integrations.', 'utm-phone-switcher' ); ?></li>
+						<li><?php esc_html_e( 'Custom business systems, marketplaces, catalogs, aggregators, and data import pipelines.', 'utm-phone-switcher' ); ?></li>
+						<li><?php esc_html_e( 'Performance optimization, PageSpeed, technical SEO, and responsive interfaces.', 'utm-phone-switcher' ); ?></li>
+						<li><?php esc_html_e( 'Automation and integrations with PHP, JavaScript, Node.js, Python/FastAPI, APIs, CRM systems, Telegram, and Asterisk.', 'utm-phone-switcher' ); ?></li>
+						<li><?php esc_html_e( 'AI-assisted workflows, parsers, bots, PDF and Word generation, and internal tools.', 'utm-phone-switcher' ); ?></li>
 					</ul>
-					<h3><a href="https://protradejournal.net/" target="_blank" rel="noreferrer noopener">ProTradeJournal — <?php esc_html_e( 'Trading Platform', 'utm-phone-switcher' ); ?></a></h3>
-					<p><?php esc_html_e( 'Related products', 'utm-phone-switcher' ); ?>:</p>
+
+					<h3><?php esc_html_e( 'Selected projects', 'utm-phone-switcher' ); ?></h3>
+					<div class="pdxglobal_portfolio">
+						<article class="pdxglobal_project"><h4><a href="https://gloap.net/en/" target="_blank" rel="noreferrer noopener">Gloap — Maritime Recruitment Platform</a></h4><p><?php esc_html_e( 'A crewing platform with 200,000+ resumes, vacancies, response tools, instant messaging, bulk mailings, Telegram bots, Asterisk calling, and PDF/Word document generation. PageSpeed Mobile reached 100.', 'utm-phone-switcher' ); ?></p></article>
+						<article class="pdxglobal_project"><h4><a href="https://obuvnov.ru/" target="_blank" rel="noreferrer noopener">Obuvnov — Product Aggregator</a></h4><p><?php esc_html_e( 'A product catalog that processes more than 50 million products from supplier feeds, with city-specific pages and PageSpeed Mobile 100.', 'utm-phone-switcher' ); ?></p></article>
+						<article class="pdxglobal_project"><h4><a href="https://o-keto.com/en/" target="_blank" rel="noreferrer noopener">O-Keto — Nutrition Platform</a></h4><p><?php esc_html_e( 'A WordPress and WooCommerce platform for recipes, products, nutrients, quizzes, digital books, multilingual publishing, and ecommerce.', 'utm-phone-switcher' ); ?></p></article>
+						<article class="pdxglobal_project"><h4><a href="https://protradejournal.net/trading" target="_blank" rel="noreferrer noopener">ProTradeJournal — Trading Products</a></h4><p><?php esc_html_e( 'Browser and desktop trading tools with real-time charts, demo trading, portfolio tracking, and a historical-data testing platform.', 'utm-phone-switcher' ); ?></p></article>
+						<article class="pdxglobal_project"><h4><a href="https://tenderclip.com/" target="_blank" rel="noreferrer noopener">TenderClip — Content Automation</a></h4><p><?php esc_html_e( 'A multilingual WordPress media platform for animated cards and short videos, with subscriptions, a browser editor, and automated publishing. PageSpeed reached 100 on mobile and desktop.', 'utm-phone-switcher' ); ?></p></article>
+						<article class="pdxglobal_project"><h4><a href="https://needtome.com/nohackme/" target="_blank" rel="noreferrer noopener">NoHackMe Defender</a></h4><p><?php esc_html_e( 'A WordPress security plugin that blocks suspicious requests, brute-force attempts, parsing, and DoS-like traffic patterns.', 'utm-phone-switcher' ); ?></p></article>
+					</div>
+
+					<p><?php esc_html_e( 'The resume includes additional projects, technical background, and work history.', 'utm-phone-switcher' ); ?></p>
 					<ul>
-						<li><a href="https://protradejournal.net/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Trading simulator and journal', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://protradejournal.net/trading" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Trading terminal', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://protradejournal.net/robots" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Trading robots', 'utm-phone-switcher' ); ?></a></li>
-					</ul>
-					<p><?php esc_html_e( 'More works can be seen in the WordPress and AI & automation resumes.', 'utm-phone-switcher' ); ?></p>
-					<ul>
-						<li><a href="https://docs.google.com/document/d/11w_tmtQbJ7ebcQHQi7jE9Y5WClfVHyMtxbR3-GW3b-s/edit?usp=sharing" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'WordPress resume', 'utm-phone-switcher' ); ?></a></li>
-						<li><a href="https://docs.google.com/document/d/1tbHaxGPeN9je1qozgkQcX3djzaTrpR_MLvghjqMAuFM/edit?usp=sharing" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'AI & automation resume', 'utm-phone-switcher' ); ?></a></li>
+						<li><a href="https://docs.google.com/document/d/11w_tmtQbJ7ebcQHQi7jE9Y5WClfVHyMtxbR3-GW3b-s/edit?usp=sharing" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'WordPress and full-stack development resume', 'utm-phone-switcher' ); ?></a></li>
+						<li><a href="https://docs.google.com/document/d/1tbHaxGPeN9je1qozgkQcX3djzaTrpR_MLvghjqMAuFM/edit?usp=sharing" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'AI and automation resume', 'utm-phone-switcher' ); ?></a></li>
+						<li><a href="https://needtome.com/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Portfolio and contact page', 'utm-phone-switcher' ); ?></a></li>
 					</ul>
 				<?php endif; ?>
 			</div>
@@ -546,6 +596,75 @@ final class Plugin {
 					<p class="description"><?php esc_html_e( 'Days. Use 0 to remember it only for the current browser session. The first-party cookie stores matching rule IDs, not phone numbers or visitor profiles.', 'utm-phone-switcher' ); ?></p>
 				</td>
 			</tr>
+		</table>
+
+		<section class="utm-phone-switcher-consent-panel" aria-labelledby="utm-phone-switcher-consent-title">
+			<h2 id="utm-phone-switcher-consent-title"><?php esc_html_e( 'GDPR and cookie consent', 'utm-phone-switcher' ); ?></h2>
+			<p id="utm-phone-switcher-consent-intro" class="description"><?php esc_html_e( 'UTM Phone Switcher changes the number whenever the current page URL matches a rule. A first-party cookie can remember that campaign for later pages; it stores only matching rule IDs. This section controls that cross-page memory.', 'utm-phone-switcher' ); ?></p>
+			<p class="description"><?php esc_html_e( 'If your cookie banner should control this cookie, connect its consent signal below. When consent for the selected category is refused or withdrawn, the plugin deletes the cookie; a matching campaign URL still works. This setting follows your banner’s signal. It does not decide whether consent is legally required or make your site GDPR-compliant by itself.', 'utm-phone-switcher' ); ?></p>
+
+			<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="utm-phone-switcher-consent-mode"><?php esc_html_e( 'Consent handling', 'utm-phone-switcher' ); ?></label></th>
+				<td>
+						<select id="utm-phone-switcher-consent-mode" aria-describedby="utm-phone-switcher-consent-intro" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[consent_mode]">
+						<option value="always" <?php selected( 'always', $settings['consent_mode'] ); ?>><?php esc_html_e( 'Always remember across pages (no consent check)', 'utm-phone-switcher' ); ?></option>
+						<option value="wp_consent_api" <?php selected( 'wp_consent_api', $settings['consent_mode'] ); ?>><?php esc_html_e( 'Use the WordPress Consent API', 'utm-phone-switcher' ); ?></option>
+						<option value="custom" <?php selected( 'custom', $settings['consent_mode'] ); ?>><?php esc_html_e( 'Connect another consent banner', 'utm-phone-switcher' ); ?></option>
+					</select>
+				</td>
+			</tr>
+			<tr data-utm-consent-option="wp_consent_api,custom">
+				<th scope="row"><label for="utm-phone-switcher-consent-category"><?php esc_html_e( 'Consent category', 'utm-phone-switcher' ); ?></label></th>
+				<td>
+					<select id="utm-phone-switcher-consent-category" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[consent_category]">
+						<?php
+						$consent_categories = array(
+							'functional'           => __( 'Functional', 'utm-phone-switcher' ),
+							'preferences'          => __( 'Preferences', 'utm-phone-switcher' ),
+							'statistics-anonymous' => __( 'Anonymous statistics', 'utm-phone-switcher' ),
+							'statistics'           => __( 'Statistics', 'utm-phone-switcher' ),
+							'marketing'            => __( 'Marketing', 'utm-phone-switcher' ),
+						);
+						foreach ( $consent_categories as $category => $label ) :
+							?>
+							<option value="<?php echo esc_attr( $category ); ?>" <?php selected( $category, $settings['consent_category'] ); ?>><?php echo esc_html( $label ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'Choose the same category your banner reports as allowed. Your site is responsible for choosing the applicable category.', 'utm-phone-switcher' ); ?></p>
+				</td>
+			</tr>
+			<tr data-utm-consent-option="custom">
+				<th colspan="2">
+					<h3><?php esc_html_e( 'Connect a custom consent banner', 'utm-phone-switcher' ); ?></h3>
+					<p class="description"><?php esc_html_e( 'Use this only if your banner does not expose the WordPress Consent API. Enter a JavaScript path for the current consent state and an event that fires when the visitor changes the choice. If the plugin cannot read an allowed state, it will not use the campaign cookie.', 'utm-phone-switcher' ); ?></p>
+				</th>
+			</tr>
+			<tr data-utm-consent-option="custom">
+				<th scope="row"><label for="utm-phone-switcher-custom-consent-path"><?php esc_html_e( 'Consent state path', 'utm-phone-switcher' ); ?></label></th>
+				<td>
+					<input type="text" class="regular-text code" id="utm-phone-switcher-custom-consent-path" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[custom_consent_path]" value="<?php echo esc_attr( $settings['custom_consent_path'] ); ?>" placeholder="window.myCmp.consent.marketing">
+					<p class="description"><?php esc_html_e( 'Enter the JavaScript property or function your banner exposes for this category, such as window.myCmp.consent.marketing. A function receives the selected category.', 'utm-phone-switcher' ); ?></p>
+				</td>
+			</tr>
+			<tr data-utm-consent-option="custom">
+				<th scope="row"><label for="utm-phone-switcher-custom-consent-event"><?php esc_html_e( 'Banner consent-change event', 'utm-phone-switcher' ); ?></label></th>
+				<td>
+					<input type="text" class="regular-text code" id="utm-phone-switcher-custom-consent-event" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[custom_consent_event]" value="<?php echo esc_attr( $settings['custom_consent_event'] ); ?>" placeholder="my-cmp:consentchange">
+					<p class="description"><?php esc_html_e( 'Enter the event name your banner dispatches when consent changes.', 'utm-phone-switcher' ); ?></p>
+				</td>
+			</tr>
+			<tr data-utm-consent-option="custom">
+				<th scope="row"><label for="utm-phone-switcher-custom-event-detail-path"><?php esc_html_e( 'Consent value in event detail', 'utm-phone-switcher' ); ?></label></th>
+				<td>
+					<input type="text" class="regular-text code" id="utm-phone-switcher-custom-event-detail-path" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[custom_event_detail_path]" value="<?php echo esc_attr( $settings['custom_event_detail_path'] ); ?>" placeholder="marketing">
+					<p class="description"><?php esc_html_e( 'Enter the path to this category’s true/false value inside event.detail. Leave blank if event.detail itself is true or false.', 'utm-phone-switcher' ); ?></p>
+				</td>
+			</tr>
+			</table>
+		</section>
+
+		<table class="form-table" role="presentation">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Uninstall', 'utm-phone-switcher' ); ?></th>
 				<td>
@@ -700,11 +819,18 @@ final class Plugin {
 			return;
 		}
 
+		$dependencies = array();
+		if ( 'wp_consent_api' === $settings['consent_mode'] && wp_script_is( 'wp-consent-api', 'registered' ) ) {
+			$dependencies[] = 'wp-consent-api';
+		}
+		$frontend_file    = plugin_dir_path( UTM_PHONE_SWITCHER_FILE ) . 'assets/js/frontend.js';
+		$frontend_version = is_file( $frontend_file ) ? (string) filemtime( $frontend_file ) : UTM_PHONE_SWITCHER_VERSION;
+
 		wp_enqueue_script(
 			'utm-phone-switcher',
 			plugins_url( 'assets/js/frontend.js', UTM_PHONE_SWITCHER_FILE ),
-			array(),
-			UTM_PHONE_SWITCHER_VERSION,
+			$dependencies,
+			$frontend_version,
 			array(
 				'in_footer' => true,
 				'strategy'  => 'defer',
@@ -712,10 +838,15 @@ final class Plugin {
 		);
 
 		$config = array(
-			'cookie_name'   => self::COOKIE_NAME,
-			'legacy_cookie_name' => self::LEGACY_COOKIE_NAME,
-			'duration_days' => (int) $settings['duration_days'],
-			'rules'         => $rules,
+			'cookie_name'                => self::COOKIE_NAME,
+			'legacy_cookie_name'          => self::LEGACY_COOKIE_NAME,
+			'duration_days'               => (int) $settings['duration_days'],
+			'consent_mode'                => $settings['consent_mode'],
+			'consent_category'            => $settings['consent_category'],
+			'custom_consent_path'         => $settings['custom_consent_path'],
+			'custom_consent_event'        => $settings['custom_consent_event'],
+			'custom_event_detail_path'    => $settings['custom_event_detail_path'],
+			'rules'                       => $rules,
 		);
 		$inline = 'window.UTMPhoneSwitcher = ' . wp_json_encode(
 			$config,
